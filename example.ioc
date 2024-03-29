@@ -2,8 +2,10 @@
 CAD.formats=
 CAD.pinconfig=
 CAD.provider=
-FREERTOS.IPParameters=Tasks01,configTOTAL_HEAP_SIZE
-FREERTOS.Tasks01=defaultTask,24,128,StartDefaultTask,Default,NULL,Dynamic,NULL,NULL
+FREERTOS.BinarySemaphores01=uartBinarySem,Dynamic,NULL
+FREERTOS.FootprintOK=true
+FREERTOS.IPParameters=Tasks01,configTOTAL_HEAP_SIZE,FootprintOK,BinarySemaphores01
+FREERTOS.Tasks01=defaultTask,24,512,StartDefaultTask,Default,NULL,Dynamic,NULL,NULL;uart,15,512,UsartTask,As weak,NULL,Dynamic,NULL,NULL
 FREERTOS.configTOTAL_HEAP_SIZE=10240
 File.Version=6
 GPIO.groupedBy=

@@ -50,7 +50,19 @@ osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
   .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
+  .stack_size = 512 * 4
+};
+/* Definitions for uart */
+osThreadId_t uartHandle;
+const osThreadAttr_t uart_attributes = {
+  .name = "uart",
+  .priority = (osPriority_t) osPriorityLow7,
+  .stack_size = 512 * 4
+};
+/* Definitions for uartBinarySem */
+osSemaphoreId_t uartBinarySemHandle;
+const osSemaphoreAttr_t uartBinarySem_attributes = {
+  .name = "uartBinarySem"
 };
 /* USER CODE BEGIN PV */
 
@@ -62,6 +74,7 @@ static void MX_GPIO_Init(void);
 static void MX_TIM7_Init(void);
 static void MX_USART1_UART_Init(void);
 void StartDefaultTask(void *argument);
+void UsartTask(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -114,6 +127,10 @@ int main(void)
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
 
+  /* Create the semaphores(s) */
+  /* creation of uartBinarySem */
+  uartBinarySemHandle = osSemaphoreNew(1, 0, &uartBinarySem_attributes);
+
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
@@ -129,6 +146,9 @@ int main(void)
   /* Create the thread(s) */
   /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* creation of uart */
+  uartHandle = osThreadNew(UsartTask, NULL, &uart_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -313,16 +333,37 @@ static void MX_GPIO_Init(void)
   * @param  argument: Not used
   * @retval None
   */
+extern int app(void);
+
+extern void UartCallback(void);
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
+    if (app() != 0) {
+        Error_Handler();
+    }
+    osThreadExit();
+  /* USER CODE END 5 */
+}
+
+/* USER CODE BEGIN Header_UsartTask */
+/**
+* @brief Function implementing the uart thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_UsartTask */
+__weak void UsartTask(void *argument)
+{
+  /* USER CODE BEGIN UsartTask */
+  /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END 5 */
+  /* USER CODE END UsartTask */
 }
 
 /**
@@ -342,7 +383,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
+    if (htim->Instance == TIM7) {
+        UartCallback();
+    }
   /* USER CODE END Callback 1 */
 }
 
