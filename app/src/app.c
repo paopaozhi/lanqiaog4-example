@@ -9,7 +9,11 @@ void Hardware_Init(void) {
 int app(void) {
     Hardware_Init();
 
-    debug("sum free:%.2zu\n",xPortGetFreeHeapSize());
+    debug("sum free:%d",xPortGetFreeHeapSize());
+
+    if(xPortGetFreeHeapSize() == 0){
+         goto ERROR;
+    }
 
     return 0;
     ERROR:
@@ -17,13 +21,13 @@ int app(void) {
 }
 
 
-#ifdef  __CC_ARM
+#if defined (__CC_ARM)
 int fputc(int ch, FILE *stream) {
     while ((USART1->ISR & 0X40) == 0);      //等待上一次串口数据发送完成
     USART1->TDR = (uint8_t) pBuffer[i];     //写DR,串口1将发送数据
     return ch;
 }
-#elifdef __GNUC__
+#elif defined(__GNUC__)
 
 int _write(int fd, char *pBuffer, int size) {
     for (int i = 0; i < size; i++) {

@@ -17,7 +17,7 @@ void UsartTask(void *arg) {
         osSemaphoreAcquire(uartBinarySemHandle, osWaitForever);
         HAL_UART_Abort_IT(&huart1);
         /* 接收buf 应用代码 开始 */
-        debug("rx_buf:%s\n",rx_buf);
+        debug("rx_buf:%s",rx_buf);
         /* 接收buf 应用代码 结束 */
         HAL_UART_Receive_IT(&huart1, rx_buf, 1);
         memset(rx_buf, 0, sizeof(rx_buf));
