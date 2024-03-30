@@ -45,23 +45,28 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
 )
 
-file(GLOB_RECURSE SOURCES "app/*.c")
+file(GLOB_RECURSE SOURCES "app/*.c" "Drivers/i2c/*.c")
+
+file(GLOB_RECURSE TEST "test/*.c")
 
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
         ${SOURCES}
+        ${TEST}
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
         app/inc
+        Drivers/i2c
 )
 
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined symbols
+        TEST
 )
 
 # Add linked libraries

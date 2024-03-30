@@ -1,6 +1,18 @@
 #include "app.h"
 #include "FreeRTOS.h"
 
+#ifdef TEST
+
+const osThreadAttr_t testAttr = {
+        .name = "test",
+        .priority = (osPriority_t) osPriorityHigh,
+        .stack_size = 512 * 4
+};
+
+extern void testTask(void *arg);
+
+#endif
+
 void Hardware_Init(void) {
 //    LCD_Init();
 //    LCD_Clear(WHITE);
@@ -14,6 +26,11 @@ int app(void) {
     if(xPortGetFreeHeapSize() == 0){
          goto ERROR;
     }
+
+
+#ifdef TEST
+    osThreadNew(testTask, NULL,&testAttr);
+#endif
 
     return 0;
     ERROR:
