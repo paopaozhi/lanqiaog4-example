@@ -1,0 +1,8 @@
+{
+  "label": "基础教程",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "对STM32G4进行基础学习，适合小白"
+  }
+}
