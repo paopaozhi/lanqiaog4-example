@@ -1,7 +1,7 @@
 #include "app.h"
 #include "FreeRTOS.h"
 
-#ifdef TEST
+#ifdef TEST_NN
 
 const osThreadAttr_t testAttr = {
         .name = "test",
@@ -28,7 +28,7 @@ int app(void) {
     }
 
 
-#ifdef TEST
+#ifdef TEST_NN
     osThreadNew(testTask, NULL,&testAttr);
 #endif
 

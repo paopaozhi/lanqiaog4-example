@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#ifdef TEST
+#if defined(TEST_NN)
 #define test_info(format, ...) \
         printf("[test info] "format"\n", ##__VA_ARGS__)
 #else
