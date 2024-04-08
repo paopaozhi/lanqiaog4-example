@@ -5,3 +5,27 @@ build/
 
 *.pdf
 site
+
+# Keil Generated output files in the sub-directories .\Listings and .\Objects
+*.lst
+*.o
+*.d
+*.crf
+*.lnp
+*.axf
+*.htm
+*.build_log.htm
+*.dep
+*.iex
+*.i
+*.bin
+*.hex
+SI/
+project/
+
+#Keil Project screen layout file
+*.uvguix.*
+*.uvgui.*
+
+#JLINK file
+JLinkLog.txt

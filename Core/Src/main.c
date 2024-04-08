@@ -53,7 +53,7 @@ osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
   .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 512 * 4
+  .stack_size = 1024 * 4
 };
 /* Definitions for uart */
 osThreadId_t uartHandle;
@@ -67,7 +67,19 @@ osThreadId_t adcHandle;
 const osThreadAttr_t adc_attributes = {
   .name = "adc",
   .priority = (osPriority_t) osPriorityLow,
-  .stack_size = 512 * 4
+  .stack_size = 256 * 4
+};
+/* Definitions for led */
+osThreadId_t ledHandle;
+const osThreadAttr_t led_attributes = {
+  .name = "led",
+  .priority = (osPriority_t) osPriorityLow,
+  .stack_size = 256 * 4
+};
+/* Definitions for ledQueue */
+osMessageQueueId_t ledQueueHandle;
+const osMessageQueueAttr_t ledQueue_attributes = {
+  .name = "ledQueue"
 };
 /* Definitions for uartBinarySem */
 osSemaphoreId_t uartBinarySemHandle;
@@ -75,7 +87,7 @@ const osSemaphoreAttr_t uartBinarySem_attributes = {
   .name = "uartBinarySem"
 };
 /* USER CODE BEGIN PV */
-
+extern void Hardware_Init(void);
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -88,6 +100,7 @@ static void MX_ADC2_Init(void);
 void StartDefaultTask(void *argument);
 void UsartTask(void *argument);
 void AdcTask(void *argument);
+void LedTask(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -132,7 +145,7 @@ int main(void)
   MX_ADC1_Init();
   MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
-
+	Hardware_Init();
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -154,6 +167,10 @@ int main(void)
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
+  /* Create the queue(s) */
+  /* creation of ledQueue */
+  ledQueueHandle = osMessageQueueNew (16, sizeof(uint8_t), &ledQueue_attributes);
+
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
@@ -167,6 +184,9 @@ int main(void)
 
   /* creation of adc */
   adcHandle = osThreadNew(AdcTask, NULL, &adc_attributes);
+
+  /* creation of led */
+  ledHandle = osThreadNew(LedTask, NULL, &led_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -528,6 +548,24 @@ __weak void AdcTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END AdcTask */
+}
+
+/* USER CODE BEGIN Header_LedTask */
+/**
+* @brief Function implementing the led thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_LedTask */
+__weak void LedTask(void *argument)
+{
+  /* USER CODE BEGIN LedTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END LedTask */
 }
 
 /**
