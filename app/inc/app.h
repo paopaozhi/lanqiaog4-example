@@ -16,6 +16,9 @@
 extern UART_HandleTypeDef huart1;
 extern TIM_HandleTypeDef htim7;
 
+extern ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc2;
+
 extern osSemaphoreId_t uartBinarySemHandle;
 
 void UartCallback(void);

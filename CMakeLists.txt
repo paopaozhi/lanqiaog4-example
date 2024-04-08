@@ -34,6 +34,8 @@ enable_language(C ASM)
 project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -u_printf_float")
+
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
 
@@ -62,6 +64,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined symbols
+        DEBUG
 )
 
 # Add linked libraries
