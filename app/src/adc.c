@@ -21,10 +21,10 @@ void AdcTask(void *arg){
         adc1_v = 3.3 * (adc1_value / 4096.0);
         adc2_v = 3.3 * (adc2_value / 4096.0);
 //        printf("adc1_v: %d.%d\n",adc1_v,adc1_value*100);
-        debug("adc1_value: %ld",adc1_value);
-        debug("adc1_v: %.2lf",adc1_v);
-        debug("adc2_value: %ld",adc2_value);
-        debug("adc1_v: %.2lf",adc1_v);
+        //debug("adc1_value: %ld",adc1_value);
+        //debug("adc1_v: %.2lf",adc1_v);
+        //debug("adc2_value: %ld",adc2_value);
+        //debug("adc1_v: %.2lf",adc1_v);
 
         osDelay(1000);
     }
