@@ -79,6 +79,13 @@ const osThreadAttr_t led_attributes = {
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 256 * 4
 };
+/* Definitions for key */
+osThreadId_t keyHandle;
+const osThreadAttr_t key_attributes = {
+  .name = "key",
+  .priority = (osPriority_t) osPriorityNormal1,
+  .stack_size = 256 * 4
+};
 /* Definitions for freq */
 osThreadId_t freqHandle;
 const osThreadAttr_t freq_attributes = {
@@ -97,6 +104,26 @@ const osThreadAttr_t pwm_attributes = {
 osMessageQueueId_t pwmQueueHandle;
 const osMessageQueueAttr_t pwmQueue_attributes = {
   .name = "pwmQueue"
+};
+/* Definitions for key1Timer */
+osTimerId_t key1TimerHandle;
+const osTimerAttr_t key1Timer_attributes = {
+  .name = "key1Timer"
+};
+/* Definitions for key2Timer */
+osTimerId_t key2TimerHandle;
+const osTimerAttr_t key2Timer_attributes = {
+  .name = "key2Timer"
+};
+/* Definitions for key3Timer */
+osTimerId_t key3TimerHandle;
+const osTimerAttr_t key3Timer_attributes = {
+  .name = "key3Timer"
+};
+/* Definitions for key4Timer */
+osTimerId_t key4TimerHandle;
+const osTimerAttr_t key4Timer_attributes = {
+  .name = "key4Timer"
 };
 /* Definitions for uartBinarySem */
 osSemaphoreId_t uartBinarySemHandle;
@@ -121,6 +148,11 @@ void StartDefaultTask(void *argument);
 void UsartTask(void *argument);
 void AdcTask(void *argument);
 void LedTask(void *argument);
+void KeyTask(void *argument);
+void Key1Callback(void *argument);
+void key2Callback(void *argument);
+void key3Callback(void *argument);
+void key4Callback(void *argument);
 void FreqTask(void *argument);
 void PwmTask(void *argument);
 
@@ -188,6 +220,19 @@ int main(void)
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
 
+  /* Create the timer(s) */
+  /* creation of key1Timer */
+  key1TimerHandle = osTimerNew(Key1Callback, osTimerOnce, NULL, &key1Timer_attributes);
+
+  /* creation of key2Timer */
+  key2TimerHandle = osTimerNew(key2Callback, osTimerOnce, NULL, &key2Timer_attributes);
+
+  /* creation of key3Timer */
+  key3TimerHandle = osTimerNew(key3Callback, osTimerOnce, NULL, &key3Timer_attributes);
+
+  /* creation of key4Timer */
+  key4TimerHandle = osTimerNew(key4Callback, osTimerOnce, NULL, &key4Timer_attributes);
+
   /* USER CODE BEGIN RTOS_TIMERS */
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
@@ -212,6 +257,9 @@ int main(void)
 
   /* creation of led */
   ledHandle = osThreadNew(LedTask, NULL, &led_attributes);
+
+  /* creation of key */
+  keyHandle = osThreadNew(KeyTask, NULL, &key_attributes);
 
   /* creation of freq */
   freqHandle = osThreadNew(FreqTask, NULL, &freq_attributes);
@@ -768,6 +816,56 @@ __weak void LedTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END LedTask */
+}
+
+/* USER CODE BEGIN Header_KeyTask */
+/**
+* @brief Function implementing the key thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_KeyTask */
+__weak void KeyTask(void *argument)
+{
+  /* USER CODE BEGIN KeyTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END KeyTask */
+}
+
+/* Key1Callback function */
+__weak void Key1Callback(void *argument)
+{
+  /* USER CODE BEGIN Key1Callback */
+
+  /* USER CODE END Key1Callback */
+}
+
+/* key2Callback function */
+__weak void key2Callback(void *argument)
+{
+  /* USER CODE BEGIN key2Callback */
+
+  /* USER CODE END key2Callback */
+}
+
+/* key3Callback function */
+__weak void key3Callback(void *argument)
+{
+  /* USER CODE BEGIN key3Callback */
+
+  /* USER CODE END key3Callback */
+}
+
+/* key4Callback function */
+__weak void key4Callback(void *argument)
+{
+  /* USER CODE BEGIN key4Callback */
+
+  /* USER CODE END key4Callback */
 }
 
 /* USER CODE BEGIN Header_FreqTask */

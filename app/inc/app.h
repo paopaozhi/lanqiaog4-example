@@ -30,6 +30,11 @@ extern TIM_HandleTypeDef htim4;
 
 extern osMessageQueueId_t pwmQueueHandle;
 
+extern osTimerId_t key1TimerHandle;
+extern osTimerId_t key2TimerHandle;
+extern osTimerId_t key3TimerHandle;
+extern osTimerId_t key4TimerHandle;
+
 extern osSemaphoreId_t uartBinarySemHandle;
 
 void UartCallback(void);

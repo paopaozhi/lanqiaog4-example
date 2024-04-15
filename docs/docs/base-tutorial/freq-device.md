@@ -8,7 +8,7 @@ footnotes: 参考链接
 
 使用板载的`XL550`产生PWM信号，电路图如下：
 
-![alt text](figures/image-1.png)
+![alt text](figures/xl550-sch.png)
 
 ## 驱动思路
 
