@@ -41,7 +41,31 @@ void UartCallback(void) {
 }
 ```
 
-## app
+## 基础配置
+
+### 日志配置
+
+由于比赛的限制，本项目的日志设计的非常简单，只包含`debug`和`error`标签，并且，使用printf进行二次封装。
+
+```c
+/* if define DEBUG,open debug and error */
+#ifdef DEBUG
+#define debug(format, ...) \
+        printf("[debug] "format"\n", ##__VA_ARGS__)
+#define error(format, ...) \
+        printf("[error] "format"\n", ##__VA_ARGS__)
+#else
+#define debug(format, ...)
+#define error(format, ...)
+#endif
+```
+
+### 初始化配置
+
+初始化拆分为外设初始化和应用程序初始化
+
+外设初始化，在调度器开始之前，用于初始化LED、LCD...
+应用程序初始化，在调度器开始之后,用于
 
 ```c
 // app.c
