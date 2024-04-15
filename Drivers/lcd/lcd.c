@@ -10,6 +10,12 @@
 static  vu16 TextColor = 0x0000, BackColor = 0xFFFF;
 vu16 dummy;
 
+#if defined (__CC_ARM)
+#define NOP() NOP();
+#elif defined (__GNUC__)
+#define NOP() asm("nop");
+#endif
+
 /*******************************************************************************
 * Function Name  : Delay_LCD
 * Description    : Inserts a delay time.
@@ -543,17 +549,17 @@ void LCD_WriteReg(u8 LCD_Reg, u16 LCD_RegValue)
 
     GPIOC->ODR = LCD_Reg;
     GPIOB->BRR  |= GPIO_PIN_5;
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
     GPIOB->BSRR |= GPIO_PIN_5;
     GPIOB->BSRR |= GPIO_PIN_8;
 
     GPIOC->ODR = LCD_RegValue;
     GPIOB->BRR  |= GPIO_PIN_5;
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
     GPIOB->BSRR |= GPIO_PIN_5;
     GPIOB->BSRR |= GPIO_PIN_8;
 }
@@ -574,17 +580,17 @@ u16 LCD_ReadReg(u8 LCD_Reg)
 
     GPIOC->ODR = LCD_Reg;
     GPIOB->BRR |= GPIO_PIN_5;
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
     GPIOB->BSRR |= GPIO_PIN_5;
     GPIOB->BSRR |= GPIO_PIN_8;
 
     LCD_BusIn();
     GPIOA->BRR |= GPIO_PIN_8;
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
     temp = GPIOC->IDR;
     GPIOA->BSRR |= GPIO_PIN_8;
 
@@ -608,14 +614,14 @@ void LCD_WriteRAM_Prepare(void)
 
     GPIOC->ODR = R34;
     GPIOB->BRR  |=  GPIO_PIN_5;
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
     GPIOB->BSRR |=  GPIO_PIN_5;
     GPIOB->BSRR |=  GPIO_PIN_8;
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
     GPIOB->BSRR |=  GPIO_PIN_9;
 }
 /*******************************************************************************
@@ -633,14 +639,14 @@ void LCD_WriteRAM(u16 RGB_Code)
 
     GPIOC->ODR = RGB_Code;
     GPIOB->BRR  |=  GPIO_PIN_5;
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
     GPIOB->BSRR |=  GPIO_PIN_5;
     GPIOB->BSRR |=  GPIO_PIN_8;
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
     GPIOB->BSRR |=  GPIO_PIN_9;
 }
 /*******************************************************************************
@@ -660,17 +666,17 @@ u16 LCD_ReadRAM(void)
 
     GPIOC->ODR = R34;
     GPIOB->BRR  |=  GPIO_PIN_5;
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
     GPIOB->BSRR |=  GPIO_PIN_5;
     GPIOB->BSRR |=  GPIO_PIN_8;
 
     LCD_BusIn();
     GPIOA->BRR |=  GPIO_PIN_8;
-    __nop();
-    __nop();
-    __nop();
+    NOP();
+    NOP();
+    NOP();
     temp = GPIOC->IDR;
     GPIOA->BSRR |=  GPIO_PIN_8;
 
