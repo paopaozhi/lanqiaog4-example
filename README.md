@@ -19,4 +19,4 @@ cd build && cmake .. && ninja
 ```
 
 > [!TIP]
-> 建议搭配`vscode`开发，[环境搭建教程]()
+> 建议搭配`vscode`开发，[环境搭建教程](https://lanqiao.paopaozhi.ltd/docs/base-tutorial/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA)
